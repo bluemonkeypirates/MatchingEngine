@@ -1,3 +1,5 @@
+package orders;
+
 import java.util.*;
 
 /**
@@ -48,8 +50,6 @@ public class OrderBook {
 
     /**
      * Gets a list of the best BUY orders (min price)
-     *
-     * @return
      */
     public Optional<Order> getBestSell(Order buyOrder) {
         if (buyOrder.getOrderType().equals(OrderType.MARKET_ORDER)) {
@@ -78,7 +78,7 @@ public class OrderBook {
                 sellOrders.remove(order);
             }
         } else {
-            throw new IllegalArgumentException("OrderID " + orderId + " is not found within OrderBook");
+            throw new IllegalArgumentException("OrderID " + orderId + " is not found within orders.OrderBook");
         }
     }
 

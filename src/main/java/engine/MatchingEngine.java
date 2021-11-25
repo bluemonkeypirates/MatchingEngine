@@ -1,9 +1,12 @@
+package engine;
+
+import orders.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
 
 public class MatchingEngine {
 
@@ -11,7 +14,7 @@ public class MatchingEngine {
     private static final Logger logger = LogManager.getLogger(MatchingEngine.class);
 
 
-    MatchingEngine() {
+    public MatchingEngine() {
     }
 
 
@@ -45,7 +48,7 @@ public class MatchingEngine {
             trades.add(new Trade(matchingOrder.getOrderId(), matchingOrder.getSide(), order.getInstrument(), tradeVolume, matchingOrder.getPrice()));
             //if the matching order is fulfilled, remove it
             if (matchingOrder.getQuantityRemaining() == 0) {
-                logger.info("Order {} fulfilled, removing from order book", matchingOrder.getOrderId());
+                logger.info("orders.Order {} fulfilled, removing from order book", matchingOrder.getOrderId());
                 orderBook.removeOrder(matchingOrder.getOrderId());
             }
             bestOrder = orderBook.getBestOrder(order);
@@ -54,7 +57,7 @@ public class MatchingEngine {
         if (order.getQuantityRemaining() > 0) {
             //no more matching orders, so add to book
             orderBook.addOrder(order);
-            logger.info("Order {} added to book", order.getOrderId());
+            logger.info("orders.Order {} added to book", order.getOrderId());
 
         }
     }

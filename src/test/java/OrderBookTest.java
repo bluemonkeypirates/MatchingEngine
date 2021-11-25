@@ -1,3 +1,4 @@
+import orders.*;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -134,6 +135,6 @@ class OrderBookTest {
                 IllegalArgumentException.class,
                 () -> orderBook.removeOrder("fakeOrder1")
         );
-        assertEquals(thrown.getMessage(), "OrderID fakeOrder1 is not found within OrderBook");
+        assertEquals(thrown.getMessage(), "OrderID fakeOrder1 is not found within orders.OrderBook");
     }
 }

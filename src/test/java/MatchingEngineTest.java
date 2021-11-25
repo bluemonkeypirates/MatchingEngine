@@ -1,3 +1,5 @@
+import engine.MatchingEngine;
+import orders.*;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -27,7 +29,6 @@ class MatchingEngineTest {
         Order order = orderBook.getOrders().get(secondOrder.get(1).orderID());
         assertEquals(500, order.getQuantityRemaining());
     }
-
 
     @Test
     public void successfullyFulfilLimitSellOrder() {
@@ -79,12 +80,6 @@ class MatchingEngineTest {
         //new SELL with lower price should satisfy limit order buy (order4)
         List<Trade> order7 = matchingEngine.addOrder(Instrument.BTCUSD, Side.SELL, 1000, BigDecimal.valueOf(54000), OrderType.MARKET_ORDER);
         assertEquals(2, order7.size());
-
-
-
-
-
-
     }
 
 

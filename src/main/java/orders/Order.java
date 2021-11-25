@@ -1,3 +1,5 @@
+package orders;
+
 import java.math.BigDecimal;
 
 public class Order {
@@ -19,7 +21,7 @@ public class Order {
         this.quantityRemaining = volume;
     }
 
-    public void updateQuantityRemaining(long tradeVolume){
+    public void updateQuantityRemaining(long tradeVolume) {
         quantityRemaining -= tradeVolume;
     }
 

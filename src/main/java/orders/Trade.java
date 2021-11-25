@@ -1,3 +1,5 @@
+package orders;
+
 import java.math.BigDecimal;
 
 public record Trade(String orderID,
