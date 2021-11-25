@@ -1,4 +1,4 @@
-public enum Spot {
+public enum Instrument {
     BTC,
     ETH,
     USD

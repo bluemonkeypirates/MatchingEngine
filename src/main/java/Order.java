@@ -3,20 +3,25 @@ import java.math.BigDecimal;
 public class Order {
     private final String orderId;
     private final Side side;
-    private final Spot spot;
-    private final long volume;
+    private final Instrument instrument;
+    private final long initialVolume;
     private final BigDecimal price;
     private final OrderType orderType;
+    private long quantityRemaining;
 
-    public Order(String orderId, Side side, Spot spot, long volume, BigDecimal price, OrderType orderType) {
+    public Order(String orderId, Side side, Instrument instrument, long volume, BigDecimal price, OrderType orderType) {
         this.orderId = orderId;
         this.side = side;
-        this.spot = spot;
-        this.volume = volume;
+        this.instrument = instrument;
+        this.initialVolume = volume;
         this.price = price;
         this.orderType = orderType;
+        this.quantityRemaining = volume;
     }
 
+    public void updateQuantityRemaining(long tradeVolume){
+        quantityRemaining -= tradeVolume;
+    }
 
     public Side getSide() {
         return side;
@@ -30,15 +35,19 @@ public class Order {
         return price;
     }
 
-    public long getVolume() {
-        return volume;
+    public long getInitialVolume() {
+        return initialVolume;
     }
 
-    public Spot getSpot() {
-        return spot;
+    public Instrument getInstrument() {
+        return instrument;
     }
 
     public OrderType getOrderType() {
         return orderType;
+    }
+
+    public long getQuantityRemaining() {
+        return quantityRemaining;
     }
 }
