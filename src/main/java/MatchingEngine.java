@@ -1,12 +1,15 @@
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.logging.Logger;
+
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 public class MatchingEngine {
 
     private final Map<Instrument, OrderBook> orderBooks = new ConcurrentHashMap<>();
-    private final Logger logger = Logger.getLogger(MatchingEngine.class.getName());
+    private static final Logger logger = LogManager.getLogger(MatchingEngine.class);
+
 
     MatchingEngine() {
     }
@@ -17,6 +20,7 @@ public class MatchingEngine {
     }
 
     public List<Trade> addOrder(Instrument instrument, Side side, long volume, BigDecimal price, OrderType orderType) {
+        logger.info("New order received");
         Order order = new Order(UUID.randomUUID().toString(), side, instrument, volume, price, orderType);
         OrderBook orderBook = orderBooks.computeIfAbsent(instrument, i -> new OrderBook());
         return handleOrder(orderBook, order);
@@ -41,6 +45,7 @@ public class MatchingEngine {
             trades.add(new Trade(matchingOrder.getOrderId(), matchingOrder.getSide(), order.getInstrument(), tradeVolume, matchingOrder.getPrice()));
             //if the matching order is fulfilled, remove it
             if (matchingOrder.getQuantityRemaining() == 0) {
+                logger.info("Order {} fulfilled, removing from order book", matchingOrder.getOrderId());
                 orderBook.removeOrder(matchingOrder.getOrderId());
             }
             bestOrder = orderBook.getBestOrder(order);
@@ -49,6 +54,8 @@ public class MatchingEngine {
         if (order.getQuantityRemaining() > 0) {
             //no more matching orders, so add to book
             orderBook.addOrder(order);
+            logger.info("Order {} added to book", order.getOrderId());
+
         }
     }
 }

@@ -1,5 +1,4 @@
 public enum Instrument {
-    BTC,
-    ETH,
-    USD
+    BTCUSD,
+    ETHUSD
 }
