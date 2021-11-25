@@ -1,5 +1,7 @@
 package orders;
 
+import orders.OrderType;
+
 import java.util.*;
 
 /**
@@ -69,7 +71,7 @@ public class OrderBook {
         ordersById.put(order.getOrderId(), order);
     }
 
-    public void removeOrder(String orderId) {
+    public Order removeOrder(String orderId) {
         if (ordersById.containsKey(orderId)) {
             Order order = ordersById.get(orderId);
             if (order.getSide().equals(Side.BUY)) {
@@ -77,6 +79,7 @@ public class OrderBook {
             } else {
                 sellOrders.remove(order);
             }
+            return order;
         } else {
             throw new IllegalArgumentException("OrderID " + orderId + " is not found within orders.OrderBook");
         }

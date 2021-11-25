@@ -22,17 +22,17 @@ public class MatchingEngine {
         return orderBooks.get(instrument);
     }
 
-    public List<Trade> addOrder(Instrument instrument, Side side, long volume, BigDecimal price, OrderType orderType) {
+    public OrderTrades addOrder(Instrument instrument, Side side, long volume, BigDecimal price, OrderType orderType) {
         logger.info("New order received");
         Order order = new Order(UUID.randomUUID().toString(), side, instrument, volume, price, orderType);
         OrderBook orderBook = orderBooks.computeIfAbsent(instrument, i -> new OrderBook());
         return handleOrder(orderBook, order);
     }
 
-    public List<Trade> handleOrder(OrderBook orderBook, Order order) {
+    public OrderTrades handleOrder(OrderBook orderBook, Order order) {
         List<Trade> trades = new ArrayList<>();
         fulfilOrder(orderBook, order, trades);
-        return trades;
+        return new OrderTrades(order, trades);
     }
 
     private void fulfilOrder(OrderBook orderBook, Order order, List<Trade> trades) {
@@ -60,5 +60,16 @@ public class MatchingEngine {
             logger.info("orders.Order {} added to book", order.getOrderId());
 
         }
+    }
+
+    public Order cancelOrder(String orderId, Instrument instrument) {
+        return orderBooks.get(instrument).removeOrder(orderId);
+    }
+
+    public List<Order> cancelAllOrders() {
+        List<Order> cancelledOrders = new ArrayList<>();
+        orderBooks.values().forEach(orderBook -> orderBook.getOrders().keySet()
+                .forEach(orderId -> cancelledOrders.add(orderBook.removeOrder(orderId))));
+        return cancelledOrders;
     }
 }
