@@ -2,6 +2,4 @@ package orders;
 
 import java.util.List;
 
-public record OrderTrades(Order order, List<Trade> trades) {
-
-}
+public record OrderTrades(Order order, List<Trade> trades) {}

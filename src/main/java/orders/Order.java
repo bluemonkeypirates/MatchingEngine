@@ -10,6 +10,7 @@ public class Order {
     private final BigDecimal price;
     private final OrderType orderType;
     private long quantityRemaining;
+    private String user;
 
     public Order(String orderId, Side side, Instrument instrument, long volume, BigDecimal price, OrderType orderType) {
         this.orderId = orderId;
